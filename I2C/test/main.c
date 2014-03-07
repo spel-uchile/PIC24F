@@ -91,6 +91,7 @@ int main()
 
     i2c1_open(157, 0x0A);
     i2c2_open(157, 0x0B);
+    i2c3_open(157, 0x0C);
 
     printf("\n\n===== I2C DRIVER TEST =====\r\n");
 

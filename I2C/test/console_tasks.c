@@ -156,6 +156,49 @@ void con_cmd_handler(void)
            return;
        }
 
+       if(strcmp(con_cmd, "test_m3") == 0)
+       {
+           char test[10] = {3,1,8,1,2,8,6,7,8,1};
+           char recv[10] = {0,0,0,0,0,0,0,0,0,0};
+           char len = 10;
+           char address[] = {I2C_EEPROM_ID, 3};
+           int count = 0;
+           int i = 0;
+
+           //Test write
+           count = i2c3_master_fputs(test, len, address, 2);
+
+           //Print results
+           sprintf(buff, "Test write: ");
+           con_printf(buff);
+           for(i=0; i<len; i++)
+           {
+               sprintf(buff, "%d, ", test[i]);
+               con_printf(buff);
+           }
+           sprintf(buff, "\n    Wrote %d from %d bytes\n", count, len);
+           con_printf(buff);
+
+           //Test read
+           count = i2c3_master_fgets(recv, len, address, 2);
+
+           //Print results
+           sprintf(buff, "Test read: ");
+           con_printf(buff);
+           for(i=0; i<len; i++)
+           {
+               sprintf(buff, "%d, ", recv[i]);
+               con_printf(buff);
+           }
+           sprintf(buff, "\n    Read %d from %d bytes\n", count, len);
+           con_printf(buff);
+
+           con_printf("\n>>");
+           con_arg_tolong = FALSE;
+           con_entry_flag = FALSE;
+           return;
+       }
+
        if(strcmp(con_cmd, "test_m1s2") == 0)
        {
            char test[10] = {0,1,2,3,4,5,6,7,8,9};
